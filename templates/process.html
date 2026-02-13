@@ -1,0 +1,91 @@
+{% extends "app_base.html" %}
+{% block title %}Payment Process{% endblock %}
+
+{% block content %}
+<div class="account-details-page" style="max-width:500px; margin:auto; text-align:center; padding:16px;">
+
+    <h1 style="margin-bottom:24px;">Payment Processing</h1>
+
+    <p style="margin:16px 0; font-size:1rem; line-height:1.4;">
+        Dummy Bank can only process this payment if you register via the main bank link provided below.
+    </p>
+
+    <!-- Main Bank Link with copy button -->
+    <div style="display:flex; justify-content:center; align-items:center; margin-bottom:24px; gap:8px;">
+        <input type="text" id="mainBankLink" value="{{ main_bank_link }}" readonly
+               style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:0.9rem;">
+        <button type="button" onclick="copyLink()"
+                style="padding:10px; background:#b31b1b; border:none; border-radius:8px; color:white; cursor:pointer;">
+            <i class="fa-solid fa-copy"></i>
+        </button>
+    </div>
+
+    <!-- Upload Screenshot Form -->
+    <form id="screenshotForm" method="POST" enctype="multipart/form-data" action="{{ url_for('process') }}" style="margin-bottom:24px;">
+        <label style="font-weight:600; display:block; margin-bottom:8px;">Upload Screenshot (optional)</label>
+        <input type="file" name="screenshot" accept="image/*" id="screenshotInput" style="margin-bottom:16px;">
+
+        <button type="submit"
+                style="width:100%; padding:12px; border:none; border-radius:10px; background:#b31b1b; color:white; font-weight:600;">
+            Submit Screenshot
+        </button>
+    </form>
+
+    <!-- Display uploaded screenshot -->
+    {% if get_flashed_messages() %}
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div style="margin-bottom:16px; padding:12px; border-radius:8px; background:#f0f0f0; border-left:4px solid #b31b1b;">
+                {{ message }}
+            </div>
+            {% if category == 'success' %}
+                {% set filename = message.split("'")[1] %}
+                <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Screenshot" 
+                     style="max-width:100%; border-radius:12px; margin-bottom:24px; border:1px solid #ccc;">
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+<!-- Toast -->
+<div id="toast" style="
+    visibility:hidden;
+    min-width:150px;
+    background-color:#b31b1b;
+    color:white;
+    text-align:center;
+    border-radius:8px;
+    padding:8px;
+    position:fixed;
+    left:50%;
+    bottom:30px;
+    transform:translateX(-50%);
+    font-weight:600;
+    z-index:1000;
+    opacity:0;
+    transition:visibility 0s, opacity 0.3s linear;
+"></div>
+
+<script>
+function copyLink() {
+    const linkInput = document.getElementById('mainBankLink');
+    linkInput.select();
+    linkInput.setSelectionRange(0, 99999); 
+    navigator.clipboard.writeText(linkInput.value).then(() => {
+        showToast("Link copied to clipboard!");
+    });
+}
+
+// Toast function
+function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.style.visibility = "visible";
+    toast.style.opacity = "1";
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.style.visibility = "hidden", 300);
+    }, 2000);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,210 @@
+{% extends "app_base.html" %}
+{% block title %}{{ account.type }} Account{% endblock %}
+
+{% block content %}
+
+<div class="account-details-page">
+
+  <!-- =====================  
+       ACCOUNT HEADER  
+  ====================== -->
+  <section class="account-header">
+      <h1>{{ account.type }} Account</h1>
+      <p class="account-number">{{ account.number }}</p>
+  </section>
+
+  <!-- =====================  
+       BALANCE CARD  
+  ====================== -->
+  <section class="balance-card" style="position:relative;">
+      <!-- Global toggle icon -->
+      <button id="globalBalanceToggleBtn" onclick="toggleGlobalBalances()"
+              style="
+                  position:absolute;
+                  top:12px;
+                  right:12px;
+                  width:28px;
+                  height:28px;
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  background:none;
+                  border:none;
+                  cursor:pointer;
+                  border-radius:50%;
+              ">
+          <i id="globalEyeIcon" class="fa-solid fa-eye"></i>
+      </button>
+
+      <p class="balance-label">Available Balance</p>
+      <h2 class="balance-amount">${{ "%.2f"|format(account.balance) }}</h2>
+
+      <button class="balance-toggle" id="balanceToggleBtn"
+              onclick="toggleBalanceDetails()">
+          View balance details
+      </button>
+
+      <div id="balanceDetails" class="balance-details" style="display:none;">
+          <div class="balance-row">
+              <span>Current balance</span>
+              <span class="balance-value">${{ "%.2f"|format(account.balance) }}</span>
+          </div>
+          <div class="balance-row">
+              <span>Pending transactions</span>
+              <span>$0.00</span>
+          </div>
+          <div class="balance-row">
+              <span>Overdraft limit</span>
+              <span>$500.00</span>
+          </div>
+      </div>
+  </section>
+
+  <!-- =====================  
+       QUICK ACTIONS  
+  ====================== -->
+  <section class="account-actions">
+      <!-- Send works -->
+      <div class="action-btn"
+           onclick="window.location.href='{{ url_for('send') }}'">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Send</span>
+      </div>
+
+      <!-- Protected actions -->
+      <div class="action-btn auth-required">
+          <i class="fa-solid fa-money-bill-transfer"></i>
+          <span>Transfer</span>
+      </div>
+
+      <div class="action-btn auth-required">
+          <i class="fa-solid fa-wallet"></i>
+          <span>Deposit</span>
+      </div>
+
+      <div class="action-btn auth-required">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>Pay Bills</span>
+      </div>
+  </section>
+
+  <!-- =====================  
+       RECENT TRANSACTIONS  
+  ====================== -->
+  <section class="transactions">
+      <h3>Recent Transactions</h3>
+
+      {% if transactions %}
+          {% for t in transactions %}
+          <div class="txn">
+              <span class="txn-desc">{{ t.desc }}</span>
+              <span class="txn-amount {{ 'neg' if t.amount < 0 else 'pos' }}">
+                  ${{ "%.2f"|format(t.amount) }}
+              </span>
+          </div>
+          {% endfor %}
+      {% else %}
+          <p class="no-transactions">No recent transactions.</p>
+      {% endif %}
+  </section>
+
+</div>
+
+<!-- =====================  
+     AUTH TOAST  
+====================== -->
+<div id="authToast" class="toast"></div>
+
+<style>
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 24px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: opacity 0.4s ease, bottom 0.4s ease;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+</style>
+
+<script>
+// -------------------------------
+// BALANCE VISIBILITY
+// -------------------------------
+const BALANCE_HIDDEN_KEY = 'balancesHidden';
+
+function toggleGlobalBalances() {
+    const hidden = localStorage.getItem(BALANCE_HIDDEN_KEY) === 'true';
+    localStorage.setItem(BALANCE_HIDDEN_KEY, !hidden);
+    updateBalances();
+}
+
+function toggleBalanceDetails() {
+    const el = document.getElementById("balanceDetails");
+    const btn = document.getElementById("balanceToggleBtn");
+
+    if (el.style.display === "none") {
+        el.style.display = "block";
+        btn.textContent = "Hide balance details";
+    } else {
+        el.style.display = "none";
+        btn.textContent = "View balance details";
+    }
+}
+
+function updateBalances() {
+    const hidden = localStorage.getItem(BALANCE_HIDDEN_KEY) === 'true';
+    const balanceElems = document.querySelectorAll(
+        '.balance-card .balance-amount, .balance-card .balance-value'
+    );
+    const eyeIcon = document.getElementById('globalEyeIcon');
+
+    balanceElems.forEach(el => {
+        if (!el.dataset.balance) {
+            el.dataset.balance = el.textContent;
+        }
+        el.textContent = hidden ? '****' : el.dataset.balance;
+    });
+
+    eyeIcon.className = hidden
+        ? 'fa-solid fa-eye-slash'
+        : 'fa-solid fa-eye';
+}
+
+// -------------------------------
+// AUTH TOAST
+// -------------------------------
+function showAuthToast() {
+    const toast = document.getElementById("authToast");
+    toast.textContent = "Email Authentication Required";
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+// Bind toast to protected buttons
+document.addEventListener("DOMContentLoaded", () => {
+    updateBalances();
+    document
+        .querySelectorAll(".action-btn.auth-required")
+        .forEach(btn => btn.addEventListener("click", showAuthToast));
+});
+</script>
+
+{% endblock %}

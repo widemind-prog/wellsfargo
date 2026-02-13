@@ -1,0 +1,11 @@
+{% extends "app_base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="profile-card">
+    <h2>{{ user }}</h2>
+    <button class="logout-btn" onclick="window.location='/logout'">
+        Sign Out
+    </button>
+</div>
+{% endblock %}

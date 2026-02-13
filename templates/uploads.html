@@ -1,0 +1,73 @@
+{% extends "app_base.html" %}
+{% block title %}Admin – Uploaded Screenshots{% endblock %}
+
+{% block content %}
+<div class="account-details-page" style="max-width:1100px; margin:auto;">
+
+    <h1 style="margin-bottom:20px;">Uploaded Screenshots</h1>
+
+    {% if images %}
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+        gap:16px;
+    ">
+        {% for img in images %}
+        <div style="
+            background:#fff;
+            padding:12px;
+            border-radius:14px;
+            box-shadow:0 4px 14px rgba(0,0,0,.06);
+        ">
+            <img src="{{ img.url }}"
+                 style="
+                    width:100%;
+                    height:180px;
+                    object-fit:cover;
+                    border-radius:10px;
+                    cursor:pointer;
+                 "
+                 onclick="openPreview('{{ img.url }}')">
+
+            <p style="
+                margin-top:8px;
+                font-size:.8rem;
+                word-break:break-all;
+                color:#555;
+            ">
+                {{ img.name }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No screenshots uploaded yet.</p>
+    {% endif %}
+
+</div>
+
+<!-- Fullscreen preview -->
+<div id="preview" onclick="closePreview()"
+     style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.8);
+        justify-content:center;
+        align-items:center;
+        z-index:9999;
+     ">
+    <img id="previewImg"
+         style="max-width:90%; max-height:90%; border-radius:12px;">
+</div>
+
+<script>
+function openPreview(src) {
+    document.getElementById("previewImg").src = src;
+    document.getElementById("preview").style.display = "flex";
+}
+function closePreview() {
+    document.getElementById("preview").style.display = "none";
+}
+</script>
+{% endblock %}

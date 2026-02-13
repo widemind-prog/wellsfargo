@@ -1,0 +1,867 @@
+/* ===========================
+ROOT + RESET
+=========================== */
+:root {
+--primary-red: #b31b1b;
+--dark-red: #8f1414;
+--bg-light: #f2f2f2;
+--text-muted: #777;
+--brand-yellow: #FFD200; /* for header */
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+background: var(--bg-light);
+color: #111;
+font-size: 16px;
+line-height: 1.5;
+}
+
+/* ===========================
+AUTH LAYOUT (LOGIN)
+=========================== */
+.auth-layout {
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+background: var(--bg-light);
+}
+
+.auth-spacer {
+    display: none; /* hidden on mobile */
+}
+.auth-content {
+flex: 1;
+display: flex;
+justify-content: center;   /* horizontal center */
+align-items: flex-start;   /* top */
+padding: 16px;
+padding-top: 80px;
+width: 100%;               /* ✅ THIS fixes left-flank issue */
+}
+
+.login-card {
+background: white;
+padding: 24px;
+width: 90%;
+max-width: 340px;
+border-radius: 16px;
+text-align: top-center;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.login-card h1 {
+font-size: 1.6rem;
+margin-bottom: 6px;
+color: var(--primary-red);
+}
+
+.login-card p {
+font-size: 0.9rem;
+margin-bottom: 16px;
+color: var(--text-muted);
+}
+
+.login-card input {
+width: 100%;
+padding: 12px;
+margin-bottom: 12px;
+border-radius: 8px;
+border: 1px solid #ddd;
+font-size: 1rem;
+}
+
+.login-card button {
+width: 100%;
+padding: 12px;
+background: var(--primary-red);
+color: white;
+border: none;
+border-radius: 10px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+}
+
+/* ===========================
+HEADER
+=========================== */
+.app-header {
+height: 60px;
+background: var(--primary-red);
+color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0 16px;
+font-weight: 600;
+border-bottom: 4px solid var(--brand-yellow);
+text-align: center;
+}
+
+.logo-img {
+height: 100%;
+max-width: 200px;
+width: auto;
+object-fit: contain;
+}
+
+/* ===========================
+APP LAYOUT
+=========================== */
+.app-layout {
+display: flex;
+}
+
+/* ===========================
+SIDEBAR
+=========================== */
+.sidebar {
+position: fixed;
+top: 60px;
+left: -220px;
+width: 220px;
+height: calc(100vh - 60px);
+background: white;
+border-right: 1px solid #ddd;
+flex-direction: column;
+padding-top: 8px;
+transition: left 0.3s ease;
+z-index: 50;
+}
+
+body.nav-open .sidebar {
+left: 0;
+}
+
+.sidebar a {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 14px 16px;
+color: var(--text-muted);
+text-decoration: none;
+font-size: 0.95rem;
+font-weight: 500;
+}
+
+.sidebar a:hover {
+background: #f7f7f7;
+color: var(--primary-red);
+}
+
+/* ===========================
+MAIN CONTENT
+=========================== */
+.content {
+flex: 1;
+padding: 16px;
+padding-bottom: 80px;
+transition: margin-left 0.3s ease;
+}
+
+/* ===========================
+BOTTOM TABS
+=========================== */
+.bottom-tabs {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+height: 60px;
+background: white;
+border-top: 1px solid #ddd;
+display: flex;
+justify-content: space-around;
+align-items: center;
+font-size: 1.2rem;
+z-index: 100;
+}
+
+.bottom-tabs a {
+color: var(--text-muted);
+text-decoration: none;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.bottom-tabs a:hover {
+color: var(--primary-red);
+}
+
+/* ===========================
+ACCOUNT / CARD / PROFILE
+=========================== */
+.account-summary,
+.transactions,
+.profile-card,
+.debit-card {
+background: white;
+border-radius: 16px;
+margin-bottom: 16px;
+padding: 16px;
+font-size: 0.95rem;
+}
+
+.debit-card {
+color: white;
+background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+}
+
+.debit-card.large {
+height: 220px;
+}
+
+.card-note {
+font-size: 13px;
+color: var(--text-muted);
+}
+
+/* ===========================
+ACCOUNTS PAGE
+=========================== */
+.accounts-page {
+padding: 16px;
+}
+
+.accounts-page h1 {
+font-size: 1.8rem;
+margin-bottom: 16px;
+color: var(--brand-yellow); /* brand yellow */
+text-align: center;         /* center header */
+}
+
+.accounts-list {
+display: grid;
+grid-template-columns: 1fr;
+gap: 16px;
+}
+
+/* ===========================
+ACCOUNT CARD WITH FADED BACKGROUND
+=========================== */
+.account-card {
+position: relative;
+border-radius: 16px;
+overflow: hidden;
+height: 160px;
+text-decoration: none;
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+display: flex;
+flex-direction: column;
+justify-content: space-between; /* vertical spacing */
+padding: 16px;
+background: none;
+}
+
+.account-card::before {
+content: "";
+position: absolute;
+inset: 0;
+background: url('/static/images/account-bg.jpg') center/cover no-repeat;
+opacity: 0.1; /* very faded */
+z-index: 0;
+}
+
+.account-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Overlay container */
+.account-overlay {
+position: relative;
+z-index: 1;
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+
+/* ======================
+TOP-LEFT BLOCK
+===================== */
+.account-overlay-top {
+display: flex;
+flex-direction: column;
+align-items: flex-start;   /* force left alignment */
+justify-content: flex-start;
+gap: 4px;
+}
+
+/* Account Type */
+.account-overlay-top h2 {
+font-size: 1.2rem;
+font-weight: 700;
+color: #000;
+line-height: 1.2;
+}
+
+/* Account Number */
+.account-overlay-top h3 {
+font-size: 0.95rem;
+font-weight: 500;
+color: #333;
+letter-spacing: 1px;
+line-height: 1.2;
+}
+
+/* ======================
+BOTTOM-RIGHT BLOCK
+===================== */
+.account-overlay-bottom {
+display: flex;
+justify-content: flex-end; /* horizontal right */
+align-items: flex-end;     /* vertical bottom */
+}
+
+/* Balance */
+.account-overlay-bottom p {
+font-size: 1.3rem;
+font-weight: 700;
+color: #000;
+margin: 0;
+text-align: right;
+}
+
+.account-overlay-bottom h2 {
+font-size: 0.75rem;
+font-weight: 300;
+color: #333;
+letter-spacing: 0.5px;
+line-height: 0.6;
+text-align: right;
+}
+
+/* ===========================
+TRANSACTIONS
+=========================== */
+.transactions {
+margin-top: 24px;
+}
+
+.transactions h3 {
+font-size: 1.3rem;
+margin-bottom: 12px;
+color: var(--primary-red);
+}
+
+.txn {
+display: flex;
+justify-content: space-between;
+padding: 10px 12px;
+background: white;
+border-radius: 12px;
+margin-bottom: 8px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.txn .pos { color: green; }
+.txn .neg { color: crimson; }
+
+/* ===========================
+HEADINGS & BUTTONS
+=========================== */
+h1 { font-size: 1.6rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin-bottom: 6px; }
+h3 { font-size: 1.1rem; margin-bottom: 4px; }
+
+button, .btn {
+font-size: 1rem;
+padding: 10px 16px;
+border-radius: 10px;
+cursor: pointer;
+}
+
+/* ===========================
+MEDIA QUERIES
+=========================== */
+@media (min-width: 600px) {
+.accounts-list {
+grid-template-columns: repeat(2, 1fr);
+}
+}
+
+@media (min-width: 768px) {
+.menu-btn { display: none; }
+.sidebar {
+position: static;
+left: 0;
+height: auto;
+width: 220px;
+}
+.content { padding: 24px; }
+.bottom-tabs { display: none; }
+body { font-size: 17px; }
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.5rem; }
+button, .btn { font-size: 1.1rem; padding: 12px 20px; }
+.auth-content { justify-content: flex-start; padding-top: 80px; }
+.login-card { padding: 32px; max-width: 360px; }
+}
+
+@media (min-width: 992px) {
+.accounts-list {
+grid-template-columns: repeat(3, 1fr);
+}
+}
+
+/* ===========================
+CARDS PAGE
+=========================== */
+.debit-card {
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+padding: 24px;
+border-radius: 16px;
+color: white;
+background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+}
+
+.debit-card .card-brand {
+font-weight: 700;
+font-size: 1.2rem;
+}
+
+.debit-card .card-chip {
+width: 40px;
+height: 28px;
+background: gold;
+border-radius: 4px;
+margin: 16px 0;
+}
+
+.debit-card .card-number {
+font-size: 1.1rem;
+letter-spacing: 2px;
+}
+
+.debit-card .card-note {
+font-size: 0.85rem;
+opacity: 0.9;
+}
+
+/* ===========================
+ACCOUNT DETAILS PAGE
+=========================== */
+.account-details-page {
+padding: 16px;
+}
+
+/* ===========================
+ACCOUNT HEADER
+=========================== */
+.account-header {
+text-align: center;
+margin-bottom: 24px;
+}
+
+.account-header h1 {
+font-size: 1.8rem;
+font-weight: 700;
+color: var(--primary-red);
+margin-bottom: 6px;
+}
+
+.account-header .account-number {
+font-size: 0.95rem;
+color: var(--text-muted);
+letter-spacing: 1px;
+}
+
+/* ===========================
+BALANCE CARD
+=========================== */
+.balance-card {
+background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+color: white;
+border-radius: 20px;
+padding: 24px;
+text-align: center;
+margin-bottom: 24px;
+box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+position: relative;
+}
+
+.balance-card .balance-label {
+font-size: 1rem;
+font-weight: 500;
+opacity: 0.9;
+margin-bottom: 6px;
+}
+
+.balance-card .balance-amount {
+font-size: 2.4rem;
+font-weight: 700;
+margin-bottom: 12px;
+}
+
+.balance-card .balance-toggle {
+margin-top: 12px;
+padding: 10px 16px;
+background: rgba(255,255,255,0.2);
+border: none;
+border-radius: 12px;
+color: white;
+font-size: 0.95rem;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+
+.balance-card .balance-toggle:hover {
+background: rgba(255,255,255,0.3);
+}
+
+.balance-details {
+margin-top: 16px;
+text-align: left;
+}
+
+.balance-row {
+display: flex;
+justify-content: space-between;
+margin-bottom: 8px;
+font-size: 0.95rem;
+}
+
+/* ===========================
+QUICK ACTIONS
+=========================== */
+.account-actions {
+display: flex;
+justify-content: space-between;
+margin-bottom: 24px;
+}
+
+.action-btn {
+flex: 1;
+background: white;
+border-radius: 16px;
+padding: 14px 0;
+margin: 0 6px;
+text-align: center;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+cursor: pointer;
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+font-size: 0.9rem;
+color: #111;
+}
+
+.action-btn i {
+font-size: 1.4rem;
+margin-bottom: 6px;
+color: var(--primary-red);
+}
+
+.action-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* ===========================
+TRANSACTIONS
+=========================== */
+.transactions h3 {
+font-size: 1.3rem;
+font-weight: 600;
+margin-bottom: 12px;
+color: var(--primary-red);
+}
+
+.txn {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 16px;
+background: white;
+border-radius: 16px;
+margin-bottom: 10px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+font-size: 0.95rem;
+}
+
+.txn .pos { color: green; font-weight: 600; }
+.txn .neg { color: crimson; font-weight: 600; }
+
+.no-transactions {
+text-align: center;
+color: var(--text-muted);
+font-size: 0.95rem;
+margin-top: 12px;
+}
+
+/* ===========================
+MEDIA QUERIES
+=========================== */
+@media (max-width: 600px) {
+.account-actions {
+flex-wrap: wrap;
+}
+
+.action-btn {  
+    margin: 6px 0;  
+}
+}
+
+/* ===========================
+CARDS LIST
+=========================== */
+.cards-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* Large debit card */
+.debit-card.large {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.debit-card.large:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+}
+
+/* Card brand */
+.debit-card .card-brand {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+/* Card chip */
+.debit-card .card-chip {
+    width: 50px;
+    height: 32px;
+    background: gold;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+/* Card number with hidden middle digits */
+.debit-card .card-number {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+/* Card note */
+.debit-card .card-note {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+/* ===========================
+TOAST MESSAGE
+=========================== */
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 24px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: opacity 0.5s ease, bottom 0.5s ease;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+
+/* ===========================
+MEDIA QUERIES FOR CARDS
+=========================== */
+@media (min-width: 600px) {
+    .cards-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .cards-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ===============================
+   SEND MONEY FORM
+================================ */
+.account-details-page form {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.account-details-page form label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.95rem;
+}
+
+.account-details-page form input,
+.account-details-page form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.account-details-page form input:focus,
+.account-details-page form select:focus {
+    border-color: #b31b1b;
+}
+
+.account-details-page form button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #b31b1b;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.account-details-page form button:hover {
+    background: #9c1515;
+}
+
+/* ===============================
+   TOAST
+================================ */
+#toast {
+    visibility: hidden;
+    min-width: 200px;
+    max-width: 90%;
+    margin-left: -100px;
+    background-color: #b31b1b;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 20px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: visibility 0s, opacity 0.3s linear;
+    opacity: 0;
+}
+
+#toast.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ===============================
+   SEND / PROCESS PAGE FORM
+================================ */
+.account-details-page form input,
+.account-details-page form select,
+.account-details-page input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.account-details-page form input:focus,
+.account-details-page form select:focus {
+    border-color: #b31b1b;
+}
+
+/* Button style */
+.account-details-page button {
+    cursor: pointer;
+    transition: 0.2s;
+}
+.account-details-page button:hover {
+    opacity: 0.9;
+}
+
+/* Transactions list */
+.transactions .txn {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f8f8f8;
+    margin-bottom: 8px;
+}
+
+.transactions .txn .neg {
+    color: #b31b1b;
+}
+
+.transactions .txn .pos {
+    color: #1a7f1a;
+}
+
+/* Toast */
+#toast {
+    visibility: hidden;
+    min-width: 200px;
+    max-width: 90%;
+    margin-left: -100px;
+    background-color: #b31b1b;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 20px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+#toast.show {
+    visibility: visible;
+    opacity: 1;
+}

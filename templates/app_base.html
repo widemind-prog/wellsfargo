@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Wide Mind Bank{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/bank.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<header class="app-header">
+    <a href="/">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" 
+             alt="Wide Mind Bank" 
+             class="logo-img"
+             draggable="false"
+             oncontextmenu="return false;">
+    </a>
+    <button class="menu-btn" onclick="toggleSidebar()">
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+    </button>
+</header>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <a href="/accounts"><i class="fa-solid fa-building-columns"></i> Accounts</a>
+        <a href="/cards"><i class="fa-solid fa-credit-card"></i> Cards</a>
+        <a href="/profile"><i class="fa-solid fa-user"></i> Profile</a>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="content" id="mainContent">
+        {% block content %}{% endblock %}
+    </main>
+
+</div>
+
+<!-- BOTTOM TABS (MOBILE) -->
+<nav class="bottom-tabs" id="bottomTabs">
+    <a href="/accounts"><i class="fa-solid fa-building-columns"></i></a>
+    <a href="/cards"><i class="fa-solid fa-credit-card"></i></a>
+    <a href="/profile"><i class="fa-solid fa-user"></i></a>
+</nav>
+
+
+<script>
+function toggleSidebar() {
+    document.body.classList.toggle('nav-open');
+
+    // Optional: shift main content when sidebar opens on mobile
+    const main = document.getElementById('mainContent');
+    const icon = document.getElementById('menuIcon');
+
+    if (document.body.classList.contains('nav-open')) {
+        main.style.marginLeft = '220px'; // shift content right
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark'); // switch to "X"
+    } else {
+        main.style.marginLeft = '0';
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars'); // switch back to hamburger
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends "auth_base.html" %}
+{% block title %}Wide Mind | Login{% endblock %}
+
+{% block content %}
+<div class="auth-layout">
+
+    <!-- 👻 Invisible desktop spacer (matches sidebar width) -->
+    <div class="auth-spacer"></div>
+
+    <div class="auth-content">
+        <div class="auth-card login-card">
+            <h1>Welcome Back</h1>
+            <p>Secure Sign On</p>
+
+            <form method="POST" action="/login">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign On</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

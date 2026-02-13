@@ -1,0 +1,44 @@
+{% extends "app_base.html" %}
+{% block title %}Send Money{% endblock %}
+
+{% block content %}
+<div class="account-details-page" style="max-width:400px; margin:auto;">
+
+    <h1>Send Money</h1>
+
+    <form id="sendForm">
+        <label>Amount</label>
+        <input type="number" name="amount" step="0.01" placeholder="Enter amount" required>
+
+        <label>Recipient</label>
+        <select name="recipient" required>
+            <option value="" disabled selected>Select bank or service</option>
+            {% for bank in banks %}
+            <option value="{{ bank }}">{{ bank }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- Dummy transactions -->
+    <section class="transactions" style="margin-top:24px;">
+        <h3>Recent Transactions</h3>
+        {% for i in range(6) %}
+        <div class="txn">
+            <span class="txn-desc">POS Purchase - Store {{ i+1 }}</span>
+            <span class="txn-amount neg">- ${{ "%.2f"|format(10 + i*5) }}</span>
+        </div>
+        {% endfor %}
+    </section>
+
+</div>
+
+<script>
+document.getElementById('sendForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    // redirect to process page instead of actual submission
+    window.location.href = "{{ url_for('process') }}";
+});
+</script>
+{% endblock %}

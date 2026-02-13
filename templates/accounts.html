@@ -1,0 +1,76 @@
+{% extends "app_base.html" %}
+{% block title %}Accounts{% endblock %}
+
+{% block content %}
+
+<div class="accounts-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+    <h1>Your Accounts</h1>
+    <button id="toggleBalancesBtn" onclick="toggleAllBalances()" style="background:none; border:none; cursor:pointer; font-size:1.4rem;">
+        <i id="toggleEyeIcon" class="fa-solid fa-eye"></i>
+    </button>
+</div>
+
+<div class="accounts-list">
+    {% for account in accounts %}
+    <a href="{{ url_for('account_details', account_id=account.id) }}" class="account-card">
+        <div class="account-overlay">
+            <!-- Top-left: Account Type & Number -->
+            <div class="account-overlay-top">
+                <h2>{{ account.type }}</h2>
+                <h3>{{ account.number }}</h3>
+            </div>
+            <!-- Bottom-right: Balance -->
+            <div class="account-overlay-bottom balance-amount">
+                <p>${{ "%.2f"|format(account.balance) }}</p>
+            </div>
+            
+            <div class="account-overlay-bottom balance-amount">
+                <h2>Available Balance</h2>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<script>
+// -------------------------------
+// LOCAL STORAGE KEY FOR GLOBAL STATE
+// -------------------------------
+const BALANCE_HIDDEN_KEY = 'balancesHidden';
+
+// -------------------------------
+// TOGGLE FUNCTION
+// -------------------------------
+function toggleAllBalances() {
+    const hidden = localStorage.getItem(BALANCE_HIDDEN_KEY) === 'true';
+    const newState = !hidden;
+    localStorage.setItem(BALANCE_HIDDEN_KEY, newState);
+    updateAllBalances();
+}
+
+// -------------------------------
+// UPDATE BALANCES BASED ON GLOBAL STATE
+// -------------------------------
+function updateAllBalances() {
+    const hidden = localStorage.getItem(BALANCE_HIDDEN_KEY) === 'true';
+    const balanceElements = document.querySelectorAll('.balance-amount p');
+    const eyeIcon = document.getElementById('toggleEyeIcon');
+
+    balanceElements.forEach(el => {
+        if (!el.getAttribute('data-balance')) {
+            el.setAttribute('data-balance', el.textContent); // store original
+        }
+        el.textContent = hidden ? '****' : el.getAttribute('data-balance');
+    });
+
+    // Update icon
+    eyeIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+}
+
+// -------------------------------
+// INITIALIZE ON PAGE LOAD
+// -------------------------------
+document.addEventListener('DOMContentLoaded', updateAllBalances);
+</script>
+
+{% endblock %}
