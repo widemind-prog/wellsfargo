@@ -3,44 +3,115 @@
 
 {% block content %}
 
-<div class="accounts-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
-    <h1>Your Accounts</h1>
-    <button id="toggleBalancesBtn" onclick="toggleAllBalances()" style="background:none; border:none; cursor:pointer; font-size:1.4rem;">
-        <i id="toggleEyeIcon" class="fa-solid fa-eye"></i>
-    </button>
+<!-- GREETING HEADER -->
+<div style="margin-bottom:24px;">
+    <h1 id="greetingText" style="margin-bottom:4px;"></h1>
+    <p style="color:#777; margin-top:0;">Customer since 20**</p>
 </div>
 
-<div class="accounts-list">
+<!-- SECTION HEADER -->
+<div class="accounts-header" style="
+    display:flex; 
+    align-items:center; 
+    justify-content:space-between; 
+    margin-bottom:18px;
+">
+    <h2 style="margin:0;">Cash Accounts</h2>
+    <button id="toggleBalancesBtn" onclick="toggleAllBalances()" 
+        style="background:none; border:none; cursor:pointer; padding:12px; display:flex; align-items:center; justify-content:center;">
+    <i id="toggleEyeIcon" class="fa-solid fa-eye" style="font-size:1rem;"></i>
+</button>
+</div>
+
+<!-- ACCOUNTS SECTION LIST -->
+<div class="accounts-section">
+
     {% for account in accounts %}
-    <a href="{{ url_for('account_details', account_id=account.id) }}" class="account-card">
-        <div class="account-overlay">
-            <!-- Top-left: Account Type & Number -->
-            <div class="account-overlay-top">
-                <h2>{{ account.type }}</h2>
-                <h3>{{ account.number }}</h3>
-            </div>
-            <!-- Bottom-right: Balance -->
-            <div class="account-overlay-bottom balance-amount">
-                <p>${{ "%.2f"|format(account.balance) }}</p>
-            </div>
-            
-            <div class="account-overlay-bottom balance-amount">
-                <h2>Available Balance</h2>
-            </div>
+    <a href="{{ url_for('account_details', account_id=account.id) }}" 
+       class="account-row">
+
+        <!-- LEFT SIDE -->
+        <div>
+            <h3 style="margin:0; font-size:1.05rem;">
+                {{ account.type }}
+            </h3>
+            <small style="color:#666;">
+                {{ account.number[:5] }} **** {{ account.number[-4:] }}
+            </small>
         </div>
+
+        <!-- RIGHT SIDE -->
+        <div style="text-align:right;">
+            <p class="balance-amount" 
+               style="margin:0; font-size:1.3rem; font-weight:600;">
+                ${{ "%.2f"|format(account.balance) }}
+            </p>
+            <small style="color:#888;">Available balance</small>
+        </div>
+
     </a>
     {% endfor %}
+
 </div>
+
+
+<style>
+.accounts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.account-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    color: #111;
+    transition: opacity 0.2s ease;
+}
+
+.account-row:hover {
+    opacity: 0.7;
+}
+
+.account-row h3 {
+    font-weight: 600;
+}
+</style>
+
 
 <script>
 // -------------------------------
-// LOCAL STORAGE KEY FOR GLOBAL STATE
+// DYNAMIC GREETING
+// -------------------------------
+function setGreeting() {
+    const hour = new Date().getHours();
+    let greeting = "Good evening";
+
+    if (hour < 12) {
+        greeting = "Good morning";
+    } else if (hour < 18) {
+        greeting = "Good afternoon";
+    }
+
+    const fullName = "{{ session.get('user') }}";
+    const firstName = fullName.split(" ")[0];
+
+    document.getElementById("greetingText").innerText =
+        greeting + ", " + firstName;
+}
+
+setGreeting();
+
+
+// -------------------------------
+// BALANCE TOGGLE
 // -------------------------------
 const BALANCE_HIDDEN_KEY = 'balancesHidden';
 
-// -------------------------------
-// TOGGLE FUNCTION
-// -------------------------------
 function toggleAllBalances() {
     const hidden = localStorage.getItem(BALANCE_HIDDEN_KEY) === 'true';
     const newState = !hidden;
@@ -48,28 +119,23 @@ function toggleAllBalances() {
     updateAllBalances();
 }
 
-// -------------------------------
-// UPDATE BALANCES BASED ON GLOBAL STATE
-// -------------------------------
 function updateAllBalances() {
     const hidden = localStorage.getItem(BALANCE_HIDDEN_KEY) === 'true';
-    const balanceElements = document.querySelectorAll('.balance-amount p');
+    const balanceElements = document.querySelectorAll('.balance-amount');
     const eyeIcon = document.getElementById('toggleEyeIcon');
 
     balanceElements.forEach(el => {
         if (!el.getAttribute('data-balance')) {
-            el.setAttribute('data-balance', el.textContent); // store original
+            el.setAttribute('data-balance', el.textContent);
         }
         el.textContent = hidden ? '****' : el.getAttribute('data-balance');
     });
 
-    // Update icon
-    eyeIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    eyeIcon.className = hidden ? 
+        'fa-solid fa-eye-slash' : 
+        'fa-solid fa-eye';
 }
 
-// -------------------------------
-// INITIALIZE ON PAGE LOAD
-// -------------------------------
 document.addEventListener('DOMContentLoaded', updateAllBalances);
 </script>
 

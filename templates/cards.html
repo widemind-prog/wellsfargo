@@ -6,48 +6,49 @@
 
 <div class="cards-list">
     {% for card in cards %}
-    <div class="debit-card large" onclick="showAuthToast()">
-        <div class="card-brand">{{ card.brand }}</div>
-        <div class="card-chip"></div>
-        <div class="card-number">
-            {{ card.number[:4] }} **** **** {{ card.number[-4:] }}
+    <div class="real-card" onclick="showAuthToast()">
+
+        <!-- Background Image -->
+        <div class="card-bg"></div>
+
+        <!-- Card Content -->
+        <div class="card-content">
+
+            <!-- Top Row -->
+            <div class="card-top">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" 
+                     class="card-bank-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" 
+                     class="visa-logo">
+            </div>
+
+            <!-- Chip -->
+            <div class="card-chip"></div>
+
+            <!-- Card Number -->
+            <div class="card-number">
+              {{ card.number[:5] }} **** **** {{ card.number[-4:] }}
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="card-bottom">
+                <div class="card-holder">
+                    <small>Card Holder</small>
+                    <div>{{ session.get("user") }}</div>
+                </div>
+
+                <div class="card-expiry">
+                    <small>Expires</small>
+                    <div>{{ card.expiry }}</div>
+                </div>
+            </div>
+
         </div>
-        <p class="card-note">
-            {{ card.note }}
-        </p>
     </div>
     {% endfor %}
 </div>
 
-<!-- Toast Container -->
 <div id="toast" class="toast"></div>
-
-<style>
-/* Toast styling */
-.toast {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 8px;
-    padding: 12px 24px;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    bottom: 30px;
-    font-size: 0.95rem;
-    opacity: 0;
-    transition: opacity 0.5s ease, bottom 0.5s ease;
-}
-
-.toast.show {
-    visibility: visible;
-    opacity: 1;
-    bottom: 50px;
-}
-</style>
 
 <script>
 function showAuthToast() {

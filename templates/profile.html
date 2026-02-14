@@ -2,10 +2,40 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="profile-card">
-    <h2>{{ user }}</h2>
-    <button class="logout-btn" onclick="window.location='/logout'">
-        Sign Out
-    </button>
+
+<div style="max-width:600px; margin:auto;">
+
+    <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:20px;">
+        <h2 style="margin-bottom:5px;">{{ session.get('user') }}</h2>
+        <p style="color:gray; margin-top:0;">
+            {{ session.get('username') }}
+        </p>
+        <p style="color:gray;">Member since 20**</p>
+    </div>
+
+    <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:20px;">
+        <h3>Contact Information</h3>
+        <hr>
+        <p><strong>Email:</strong> {{ session.get('username') }}</p>
+        <p><strong>Phone:</strong> (***) ***-****</p>
+        <p><strong>Address:</strong> *** ***** ****</p>
+    </div>
+
+    <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:20px;">
+        <h3>Security</h3>
+        <hr>
+        <p>Password: ********</p>
+        <p>Two-Factor Authentication: Not Enabled</p>
+        <p>Last Login: Today</p>
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+        <button onclick="window.location='/logout'"
+            style="background:#c40000; color:white; border:none; padding:12px 24px; border-radius:8px; cursor:pointer;">
+            Sign Out
+        </button>
+    </div>
+
 </div>
+
 {% endblock %}
