@@ -708,33 +708,6 @@ opacity: 0.85;
 }
 
 /* ===========================
-TOAST MESSAGE
-=========================== */
-.toast {
-visibility: hidden;
-min-width: 250px;
-margin-left: -125px;
-background-color: #333;
-color: #fff;
-text-align: center;
-border-radius: 8px;
-padding: 12px 24px;
-position: fixed;
-z-index: 1000;
-left: 50%;
-bottom: 30px;
-font-size: 0.95rem;
-opacity: 0;
-transition: opacity 0.5s ease, bottom 0.5s ease;
-}
-
-.toast.show {
-visibility: visible;
-opacity: 1;
-bottom: 50px;
-}
-
-/* ===========================
 MEDIA QUERIES FOR CARDS
 =========================== */
 @media (min-width: 600px) {
@@ -830,6 +803,7 @@ opacity: 0;
 #toast.show {
 visibility: visible;
 opacity: 1;
+bottom: 50px;
 }
 
 /* ===============================
@@ -879,32 +853,6 @@ color: #b31b1b;
 color: #1a7f1a;
 }
 
-/* Toast */
-#toast {
-visibility: hidden;
-min-width: 200px;
-max-width: 90%;
-margin-left: -100px;
-background-color: #b31b1b;
-color: #fff;
-text-align: center;
-border-radius: 8px;
-padding: 12px 20px;
-position: fixed;
-z-index: 1000;
-left: 50%;
-bottom: 30px;
-font-weight: 600;
-font-size: 0.95rem;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-opacity: 0;
-transition: visibility 0s, opacity 0.3s linear;
-}
-
-#toast.show {
-visibility: visible;
-opacity: 1;
-}
 
 /* ===========================
 REALISTIC BANK CARD
