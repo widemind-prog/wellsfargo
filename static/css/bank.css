@@ -5,7 +5,7 @@ ROOT + RESET
     --primary-red: #b31b1b;
     --dark-red: #8f1414;
     --bg-light: #f2f2f2;
-    --text-muted: #777;
+    --text-muted: #444;
     --brand-yellow: #FFD200; /* for header */
 }
 
@@ -33,33 +33,28 @@ min-height: 100vh;
 background: var(--bg-light);
 }
 
-.auth-spacer {
-display: none; /* hidden on mobile /
-}
-.auth-content {
-flex: 1;
-display: flex;
-justify-content: center;   / horizontal center /
-align-items: flex-start;   / top /
-padding: 16px;
-padding-top: 80px;
-width: 100%;               / ✅ THIS fixes left-flank issue */
-}
-
 .login-card {
-background: white;
-padding: 24px;
-width: 90%;
-max-width: 340px;
-border-radius: 16px;
-text-align: top-center;
-box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: 
+        url("/static/images/auth-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding: 24px;
+    width: 90%;
+    max-width: 340px;
+    margin: 0 auto;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    color: white; /* makes text readable */
 }
 
 .login-card h1 {
 font-size: 1.6rem;
 margin-bottom: 6px;
-color: var(--primary-red);
+color: black;
 }
 
 .login-card p {
@@ -73,17 +68,17 @@ width: 100%;
 padding: 12px;
 margin-bottom: 12px;
 border-radius: 8px;
-border: 1px solid #ddd;
+border: 1px solid #c9a400;
 font-size: 1rem;
 }
 
 .login-card button {
 width: 100%;
 padding: 12px;
-background: var(--primary-red);
-color: white;
-border: none;
-border-radius: 10px;
+background: white;
+color: var(--primary-red);
+border: 1px solid #8f1414;
+border-radius: 60px;
 font-size: 1rem;
 font-weight: 600;
 cursor: pointer;
@@ -130,6 +125,32 @@ padding-bottom: 80px;
 transition: margin-left 0.3s ease;
 }
 
+/* ===========================
+AUTH FOOTER (PREMIUM STICKY)
+=========================== */
+
+.auth-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    text-align: center;
+    padding: 14px 0;
+
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+
+    color: #666;
+
+    background: 
+    backdrop-filter: blur(8px);      /* glass effect */
+    -webkit-backdrop-filter: blur(8px);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+    z-index: 100;
+}
 /* ===========================
 BOTTOM TABS
 =========================== */
@@ -229,6 +250,39 @@ grid-template-columns: 1fr;
 gap: 16px;
 }
 
+.accounts-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.account-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 20px;
+    text-decoration: none;
+    color: #111;
+
+    border: 1px solid #999;
+    border-radius: 2px;
+
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6px);
+
+    transition: all 0.25s ease;
+}
+
+.account-row:hover {
+    background: rgba(201, 164, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(201, 164, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.account-row h3 {
+    font-weight: 600;
+}
 /* ===========================
 ACCOUNT CARD WITH FADED BACKGROUND
 =========================== /
@@ -343,7 +397,7 @@ display: flex;
 justify-content: space-between;
 padding: 10px 12px;
 background: white;
-border-radius: 12px;
+border-radius: 20px;
 margin-bottom: 8px;
 box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
@@ -361,7 +415,7 @@ h3 { font-size: 1.1rem; margin-bottom: 4px; }
 button, .btn {
 font-size: 1rem;
 padding: 10px 16px;
-border-radius: 10px;
+border-radius: 60px;
 cursor: pointer;
 }
 
@@ -441,6 +495,7 @@ ACCOUNT DETAILS PAGE
 =========================== */
 .account-details-page {
 padding: 16px;
+text-align: center;
 }
 
 /* ===========================
@@ -468,9 +523,9 @@ letter-spacing: 1px;
 BALANCE CARD
 =========================== */
 .balance-card {
-background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
-color: white;
-border-radius: 20px;
+background: #888);
+color: #111;
+border-radius: 8px;
 padding: 24px;
 text-align: center;
 margin-bottom: 24px;
@@ -494,7 +549,7 @@ margin-bottom: 12px;
 .balance-card .balance-toggle {
 margin-top: 12px;
 padding: 10px 16px;
-background: rgba(255,255,255,0.2);
+background: #111;
 border: none;
 border-radius: 12px;
 color: white;
@@ -531,12 +586,10 @@ margin-bottom: 24px;
 
 .action-btn {
 flex: 1;
-background: white;
+background: none;
 border-radius: 16px;
-padding: 14px 0;
 margin: 0 6px;
 text-align: center;
-box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 cursor: pointer;
 transition: transform 0.2s ease, box-shadow 0.2s ease;
 display: flex;
@@ -550,7 +603,7 @@ color: #111;
 .action-btn i {
 font-size: 1.4rem;
 margin-bottom: 6px;
-color: var(--primary-red);
+color: #1F3A93;
 }
 
 .action-btn:hover {
@@ -565,11 +618,12 @@ TRANSACTIONS
 font-size: 1.3rem;
 font-weight: 600;
 margin-bottom: 12px;
-color: var(--primary-red);
+color: #111;
 }
 
 .txn {
 display: flex;
+text-align: left;
 justify-content: space-between;
 align-items: center;
 padding: 12px 16px;
@@ -700,6 +754,7 @@ SEND MONEY FORM
 ================================ */
 .account-details-page form {
 background: #fff;
+text-align: left;
 padding: 24px;
 border-radius: 12px;
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -809,7 +864,7 @@ opacity: 0.9;
 /* Transactions list */
 .transactions .txn {
 display: flex;
-justify-content: space-between;
+text-align: left;
 padding: 8px 12px;
 border-radius: 8px;
 background: #f8f8f8;

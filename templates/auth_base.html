@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Wide Mind{% endblock %}</title>
+    <title>{% block title %}Wells Fargo{% endblock %}</title>
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bank.css') }}">
@@ -18,7 +18,7 @@
     <header class="app-header">
         <a href="/">
             <img src="{{ url_for('static', filename='images/logo.png') }}" 
-                 alt="Wide Mind Bank" 
+                 alt="Wells Fargo" 
                  class="logo-img"
                  draggable="false"
                  oncontextmenu="return false;">
@@ -29,6 +29,10 @@
     <main class="auth-content">
         {% block content %}{% endblock %}
     </main>
-
+    <!-- FOOTER -->
+    <footer class="auth-footer">
+        © {{ current_year }} Wells Fargo
+    </footer>
+    
 </body>
 </html>

@@ -21,16 +21,25 @@
         <button type="submit">Send</button>
     </form>
 
-    <!-- Dummy transactions -->
-    <section class="transactions" style="margin-top:24px;">
-        <h3>Recent Transactions</h3>
-        {% for i in range(6) %}
-        <div class="txn">
-            <span class="txn-desc">POS Purchase - Store {{ i+1 }}</span>
-            <span class="txn-amount neg">- ${{ "%.2f"|format(10 + i*5) }}</span>
-        </div>
-        {% endfor %}
-    </section>
+<!-- Recent Transactions -->
+<section class="transactions" style="margin-top:24px;">
+    <h3>Recent Transactions</h3>
+
+    <div class="txn">
+        <span class="txn-desc">POS Purchase - AMAZON</span>
+        <span class="txn-amount neg">- $25.00</span>
+    </div>
+
+    <div class="txn">
+        <span class="txn-desc">Online Payment - Starbucks</span>
+        <span class="txn-amount neg">- $8.99</span>
+    </div>
+
+    <div class="txn">
+        <span class="txn-desc">Online Payment - PayPal</span>
+        <span class="txn-amount neg">- $15.00</span>
+    </div>
+</section>
 
 </div>
 

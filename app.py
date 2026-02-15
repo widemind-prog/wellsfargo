@@ -69,7 +69,7 @@ USERS = [
         ],
         "transactions": {
             1: [
-                {"desc": "POS Purchase - AMAZON", "amount": -250.00},
+                {"desc": "POS Purchase - AMAZON", "amount": -25.00},
                 {"desc": "Payment Received", "amount": 1500.00},
             ],
             2: [
@@ -86,14 +86,14 @@ USERS = [
             {
                 "id": 1,
                 "type": "Savings",
-                "balance": 126000.75,
+                "balance": 126010.75,
                 "number": "***0462"
             },
         ],
         "transactions": {
             1: [
-                {"desc": "POS Purchase - AMAZON", "amount": -250.00},
-                {"desc": "Payment Received", "amount": 1500.00},
+                {"desc": "POS Purchase - AMAZON", "amount": -25.00},
+                {"desc": "Payment Received", "amount": 150.00},
             ],
         }
     }

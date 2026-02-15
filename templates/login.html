@@ -14,11 +14,65 @@
 
             <form method="POST" action="/login">
                 <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
+
+                <!-- PASSWORD FIELD WITH TOGGLE -->
+<div class="password-wrapper">
+    <input type="password" 
+           name="password" 
+           id="passwordInput"
+           placeholder="Password" 
+           required>
+
+    <i id="passwordEye"
+       class="fa-solid fa-eye password-toggle-icon"
+       onclick="togglePassword()"></i>
+</div>
+
                 <button type="submit">Sign On</button>
             </form>
         </div>
     </div>
 
 </div>
+
+<style>
+/* Wrapper to position eye */
+.password-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 45px; /* space for icon */
+}
+
+/* Just an icon, no button */
+.password-toggle-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem; /* small icon */
+    color: #777;
+    cursor: pointer;
+    padding: 10px; /* BIG click area */
+}
+</style>
+
+<script>
+function togglePassword() {
+    const input = document.getElementById("passwordInput");
+    const eye = document.getElementById("passwordEye");
+
+    if (input.type === "password") {
+        input.type = "text";
+        eye.className = "fa-solid fa-eye-slash password-toggle-icon";
+    } else {
+        input.type = "password";
+        eye.className = "fa-solid fa-eye password-toggle-icon";
+    }
+}
+</script>
+
 {% endblock %}
